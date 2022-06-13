@@ -1,5 +1,5 @@
-const express = require('express')
+import { Router } from 'express'
 
-const api = express.Router()
+const api = Router()
 
-module.exports = api
+export default api

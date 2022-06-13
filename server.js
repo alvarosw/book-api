@@ -1,5 +1,5 @@
-const express = require('express')
-const routes = require('./src/routes/api')
+import express from 'express'
+import routes from './src/routes/api'
 
 const server = express()
 
