@@ -25,7 +25,7 @@ export default async function Auth(
   const token = split[1]
 
   try {
-    const decodedToken = await TokenHandler.validateToken(token)
+    const decodedToken = await TokenHandler.validate(token)
     req.usuario = decodedToken
   } catch (error) {
     return res.status(403).json(error)

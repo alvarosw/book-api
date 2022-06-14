@@ -7,7 +7,7 @@ type UserTokenData = {
 }
 
 export default class TokenHandler {
-  static async validateToken(token: string): Promise<UserTokenData> {
+  static async validate(token: string): Promise<UserTokenData> {
       return new Promise((resolve, reject) => {
         jwt.verify(token, secretKey, async (error) => {
           const tokenDecod = jwt.decode(token)
@@ -15,7 +15,7 @@ export default class TokenHandler {
     
           if (error) {
             if (error.name == 'TokenExpiredError') {
-              const newToken = this.generateToken(userData)
+              const newToken = this.generate(userData)
               reject({ ...error, token: newToken, user: userData })
             }
     
@@ -27,7 +27,7 @@ export default class TokenHandler {
       })
   }
 
-  static generateToken({ id, name, email }: { 
+  static generate({ id, name, email }: { 
       id: number,
       name: string,
       email: string
