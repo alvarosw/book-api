@@ -1,6 +1,6 @@
-import User from "../entities/User"
-import jwt from "jsonwebtoken"
-import { comparePassword } from "../helpers/PasswordHandler"
+import User from '../entities/User'
+import jwt from 'jsonwebtoken'
+import { comparePassword, toHashPassword } from '../helpers/PasswordHandler'
 
 export default class UserService {
   async login({ email, password }: Record<string, string>) {
@@ -19,5 +19,10 @@ export default class UserService {
       name: user.name,
       email: user.email
     }, 'superSecretKeyThatWouldBeInDotenvFile', { expiresIn: '1d' })
+  }
+
+  async create({ name, email, password }: Record<string, string>) {
+    if(!name || !email || !password) throw new Error('Todos os campos são obrigatórios')
+    return User.create({ name, email, password: await toHashPassword({ password }) }).save()
   }
 }

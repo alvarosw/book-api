@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { UserController } from '../controllers/index'
-const userController = new UserController()
 
 const api = Router()
 
-api.post('/login', userController.login)
+api.post('/login', UserController.login)
+api.post('/user', UserController.create)
 
 export default api
