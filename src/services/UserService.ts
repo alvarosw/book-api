@@ -14,11 +14,14 @@ export default class UserService {
 
     if(!isPasswordValid) throw new Error('Senha incorreta')
 
-    return jwt.sign({
+    const token = jwt.sign({
       id: user.id,
       name: user.name,
       email: user.email
     }, 'superSecretKeyThatWouldBeInDotenvFile', { expiresIn: '1d' })
+
+    const { id, name } = user
+    return { id, name, email, token }
   }
 
   async create({ name, email, password }: Record<string, string>) {
