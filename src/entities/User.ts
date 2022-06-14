@@ -1,16 +1,16 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ synchronize: false, name: 'users' })
 export default class User extends BaseEntity {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column("varchar")
+  @Column('varchar')
   name: string;
 
-  @Column("varchar")
+  @Column({ type: 'varchar', nullable: false, unique: true })
   email: string;
 
-  @Column("varchar")
+  @Column({ type: 'varchar', nullable: false })
   password: string;
 }
