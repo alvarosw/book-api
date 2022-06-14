@@ -6,7 +6,7 @@ const db = new DataSource({
   port: 5432,
   username: 'postgres',
   password: '12345678',
-  entities: ["lib/entities/**/*.js"],
+  entities: ["build/src/entities/**/*.js"],
 })
 
 export async function connect() {
