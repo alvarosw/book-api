@@ -1,6 +1,6 @@
 import User from '../entities/User'
-import jwt from 'jsonwebtoken'
 import { comparePassword, toHashPassword } from '../helpers/PasswordHandler'
+import TokenHandler from '../helpers/TokenHandler'
 
 export default class UserService {
   async login({ email, password }: Record<string, string>) {
@@ -14,11 +14,7 @@ export default class UserService {
 
     if(!isPasswordValid) throw new Error('Senha incorreta')
 
-    const token = jwt.sign({
-      id: user.id,
-      name: user.name,
-      email: user.email
-    }, 'superSecretKeyThatWouldBeInDotenvFile', { expiresIn: '1d' })
+    const token = TokenHandler.generateToken(user)
 
     const { id, name } = user
     return { id, name, email, token }
