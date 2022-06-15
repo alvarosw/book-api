@@ -20,6 +20,10 @@ export default class UserService {
     return { id, nome, email, token }
   }
 
+  async getById(id: number) {
+    return User.findOne({ where: { id } })
+  }
+
   async create({ nome, email, password }: Record<string, string>) {
     if(!nome || !email || !password) throw new Error('Todos os campos são obrigatórios')
     return User.create({ 
