@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import User from './User';
 
 @Entity({ synchronize: false, name: 'livros' })
 export default class Book extends BaseEntity {
@@ -12,5 +13,9 @@ export default class Book extends BaseEntity {
   autor: string;
 
   @Column('text')
-  sinopse: string;
+  sinopse: string;  
+
+  @ManyToOne(() => User, (user) => user.livros)
+  @JoinColumn({ name: 'user_id' })
+  locatario: User
 }
