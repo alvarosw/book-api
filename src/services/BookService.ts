@@ -27,13 +27,25 @@ export default class BookService {
   }
 
   async update(id: number, { titulo, autor, sinopse }: Record<string, string>) {
-    await Book.update({ id }, { titulo, autor, sinopse })
+    await this.getByIdOrFail(id)
+    const operation = await Book.update({
+      id,
+      locatario: Raw(() => `user_id is null`)
+    }, { titulo, autor, sinopse })
+    
+    if (!operation.affected) throw new Error('Não é possível editar um livro alugado')
     return this.getById(id)
   }
-
+  
   async remove(id: number) {
-    const operation = await Book.delete(id) 
-    return { deleted: Boolean(operation.affected) }
+    await this.getByIdOrFail(id)
+    const operation = await Book.delete({
+      id,
+      locatario: Raw(() => `user_id is null`)
+    })
+
+    if (!operation.affected) throw new Error('Não é possível deletar um livro alugado')
+    return { deleted: true }
   }
 
   async rent(id: number, user: User) {
@@ -45,5 +57,10 @@ export default class BookService {
     if (!operation.affected) throw new Error('O livro já foi alugado')
 
     return this.getById(id)
+  }
+  
+  async getByIdOrFail(id: number) {
+    return Book.findOneOrFail({ where: { id } })
+      .catch(() => { throw new Error('Livro não encontrado') })
   }
 }

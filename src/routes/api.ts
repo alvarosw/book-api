@@ -1,5 +1,6 @@
 import { Router } from 'express'
-import { UserController, BookController } from '../controllers/index'
+import UserController from '../controllers/UserController'
+import BookController from '../controllers/BookController'
 import Auth from '../middlewares/Auth'
 
 const api = Router()
