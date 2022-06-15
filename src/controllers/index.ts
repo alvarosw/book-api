@@ -1,4 +1,6 @@
-import UserController from "./UserController"
+import UserController from './UserController'
+import BookController from './BookController'
 export {
-  UserController
+  UserController,
+  BookController
 }
