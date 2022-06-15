@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 const secretKey = 'superSecretKeyThatWouldBeInDotenvFile'
 type UserTokenData = {
   id: number,
-  name: string,
+  nome: string,
   email: string
 }
 
@@ -27,15 +27,15 @@ export default class TokenHandler {
       })
   }
 
-  static generate({ id, name, email }: { 
+  static generate({ id, nome, email }: { 
       id: number,
-      name: string,
+      nome: string,
       email: string
     }) {
 
     return jwt.sign({
       id,
-      name,
+      nome,
       email
     }, secretKey, { expiresIn: '1d' })
   }

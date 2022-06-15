@@ -16,14 +16,14 @@ export default class UserService {
 
     const token = TokenHandler.generate(user)
 
-    const { id, name } = user
-    return { id, name, email, token }
+    const { id, nome } = user
+    return { id, nome, email, token }
   }
 
-  async create({ name, email, password }: Record<string, string>) {
-    if(!name || !email || !password) throw new Error('Todos os campos são obrigatórios')
+  async create({ nome, email, password }: Record<string, string>) {
+    if(!nome || !email || !password) throw new Error('Todos os campos são obrigatórios')
     return User.create({ 
-      name,
+      nome,
       email, 
       password: await PasswordHandler.toHash({ password }) 
     }).save()

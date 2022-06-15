@@ -6,7 +6,7 @@ export default class User extends BaseEntity {
   id: number;
 
   @Column('varchar')
-  name: string;
+  nome: string;
 
   @Column({ type: 'varchar', nullable: false, unique: true })
   email: string;
