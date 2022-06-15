@@ -15,4 +15,6 @@ api.post('/book', BookController.create)
 api.put('/book/:id', BookController.update)
 api.delete('/book/:id', BookController.remove)
 
+api.post('/book/rent/:id', BookController.rent)
+
 export default api
