@@ -8,10 +8,6 @@ No seu terminal, digite os comandos a seguir:
   npm run serve
 ```
 
-```bash
-```
-
-
 ### Rodando os testes
 Ainda no terminal, digite o comando:
 ```bash
