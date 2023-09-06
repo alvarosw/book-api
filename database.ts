@@ -1,4 +1,4 @@
-import { DataSource } from 'typeorm'
+import { DataSource } from 'typeorm';
 
 export const db = new DataSource({
   type: 'postgres',
@@ -7,8 +7,9 @@ export const db = new DataSource({
   username: 'postgres',
   password: '12345678',
   entities: ["build/src/entities/**/*.js"],
-})
+  synchronize: true
+});
 
 export async function connect() {
-    return db.initialize()
+  return db.initialize();
 }

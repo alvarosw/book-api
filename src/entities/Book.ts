@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import User from './User';
 
-@Entity({ synchronize: false, name: 'livros' })
+@Entity({ name: 'livros' })
 export default class Book extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -13,9 +13,9 @@ export default class Book extends BaseEntity {
   autor: string;
 
   @Column('text')
-  sinopse: string;  
+  sinopse: string;
 
   @ManyToOne(() => User, (user) => user.livros)
   @JoinColumn({ name: 'user_id' })
-  locatario: User
+  locatario: User;
 }

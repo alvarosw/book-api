@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import Book from './Book';
 
-@Entity({ synchronize: false, name: 'users' })
+@Entity({ name: 'users' })
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -16,5 +16,5 @@ export default class User extends BaseEntity {
   password: string;
 
   @OneToMany(() => Book, (book) => book.locatario)
-  livros: Book[]
+  livros: Book[];
 }

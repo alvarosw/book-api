@@ -1,14 +1,19 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import { connect } from './database'
-import routes from './src/routes/api'
+import express from 'express';
+import bodyParser from 'body-parser';
+import { connect } from './database';
+import routes from './src/routes/api';
 
-const server = express()
+const server = express();
 
-server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({ extended: true }))
-server.use(routes)
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(routes);
 
-server.listen(8000, '', async () => {
-  await connect()
-})
+const port = 8000;
+
+server.listen(port, '', async () => {
+  await connect();
+  console.debug(`
+    - Application running on https://localhost:${port}
+  `);
+});

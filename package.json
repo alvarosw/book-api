@@ -20,7 +20,8 @@
   },
   "scripts": {
     "build": "tsc ",
-    "serve": "tsc && node ./build/server.js",
+    "setup": "docker compose up -d",
+    "serve": "npm run setup && tsc && node ./build/server.js",
     "test": "tsc && jest"
   },
   "keywords": [],
