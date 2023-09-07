@@ -7,23 +7,19 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/build/src"
+      "<rootDir>/src"
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json"
-    ]
+    }
   },
   "scripts": {
     "build": "tsc ",
     "setup:database": "docker compose up -d",
-    "dev": "concurrently \"tsc --watch\" \"nodemon ./build/server.js\"",
-    "serve": "npm run setup:database && tsc && node ./build/server.js",
-    "test": "tsc && jest"
+    "dev": "npx concurrently \"npx tsc --watch\" \"npx nodemon ./build/server.js\"",
+    "serve": "npm run setup:database && npx tsc && node ./build/server.js",
+    "test": "npx jest",
+    "lint": "npx eslint --fix"
   },
   "keywords": [],
   "author": "",
@@ -43,8 +39,9 @@
     "@types/jest": "^28.1.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.42",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
     "concurrently": "^8.2.1",
-    "eslint": "^8.17.0",
+    "eslint": "^8.48.0",
     "nodemon": "^3.0.1",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.9.1",

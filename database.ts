@@ -1,3 +1,4 @@
+import path from 'path';
 import { DataSource } from 'typeorm';
 
 export const db = new DataSource({
@@ -6,7 +7,7 @@ export const db = new DataSource({
   port: 5432,
   username: 'postgres',
   password: '12345678',
-  entities: ["build/src/entities/**/*.js"],
+  entities: [path.join(__dirname, '/src/entities/**/*.{js,ts}')],
   synchronize: true
 });
 
