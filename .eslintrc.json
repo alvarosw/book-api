@@ -1,12 +1,25 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
+    "parser": "@typescript-eslint/eslint-plugin",
+    "extends": [
+        "eslint:recommended"
+    ],
+    "rules": {
+        // Suas regras personalizadas, se necessário
     },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "rules": {}
+    "overrides": [
+        {
+            "files": [
+                "*.ts"
+            ], // Apenas para arquivos TypeScript
+            "parserOptions": {
+                "project": "./tsconfig.json" // Caminho para o seu arquivo tsconfig.json
+            },
+            "rules": {
+                "@typescript-eslint/indent": [
+                    "error",
+                    2
+                ] // Exemplo de regra personalizada
+            }
+        }
+    ]
 }
