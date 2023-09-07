@@ -1,17 +1,35 @@
-import { Request, Response } from 'express'
-import UserService from '../services/UserService'
+import { Request, Response } from 'express';
+import { POST, route } from 'awilix-express';
+import UserService from '../services/UserService';
 
-const userService = new UserService()
 export default class UserController {
-  static async login(req: Request, res: Response) {
-    return userService.login(req.body)
-      .then(response => res.send(response))
-      .catch(e => res.status(401).send({ message: e.message }))
+  userService: UserService;
+
+  constructor(userService: UserService) {
+    this.userService = userService;
   }
 
-  static async create(req: Request, res: Response) {
-    return userService.create(req.body)
-      .then(response => res.send(response))
-      .catch(e => res.status(400).send({ message: e.message }))
+  @POST()
+  @route('/login')
+  async login(req: Request, res: Response) {
+    try {
+      const response = await this.userService.login(req.body);
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(401).send({ message: error.message });
+    }
+  }
+
+  @POST()
+  @route('/user')
+  async create(req: Request, res: Response) {
+    try {
+      const response = await this.userService.create(req.body);
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(400).send({ message: error.message });
+    }
   }
 }

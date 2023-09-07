@@ -1,13 +1,16 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import { connect } from './database';
-import routes from './src/routes/api';
+import { loadControllers } from 'awilix-express';
+import { dependencyInjectionRequestScope } from './container';
 
 const server = express();
 
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(routes);
+server.use(express.json());
+server.use(dependencyInjectionRequestScope);
+server.use(loadControllers(
+  'src/controllers/*.{js,ts}',
+  { cwd: __dirname }
+));
 
 const port = 8000;
 

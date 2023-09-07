@@ -1,52 +1,96 @@
-import { Request, Response } from 'express'
-import BookService from '../services/BookService'
-import UserService from '../services/UserService'
+import { Request, Response } from 'express';
+import BookService from '../services/BookService';
+import UserService from '../services/UserService';
+import { DELETE, GET, PATCH, POST, PUT, before, route } from 'awilix-express';
+import Auth from '../middlewares/Auth';
 
-const bookService = new BookService()
+@route('/book')
+@before([Auth])
 export default class BookController {
-  static async get(req: Request, res: Response) {
-    return bookService.get(Object(req.query))
-      .then(response => res.send(response))
-      .catch(e => res.status(500).send({ message: e.message }))
+  bookService: BookService;
+  userService: UserService;
+
+  constructor(bookService: BookService, userService: UserService) {
+    this.bookService = bookService;
+    this.userService = userService;
   }
 
-  static async getById(req: Request, res: Response) {
-    const { id } = req.params
-    return bookService.getById(Number(id))
-      .then(response => res.send(response))
-      .catch(e => res.status(500).send({ message: e.message }))
+  @GET()
+  async get(req: Request, res: Response) {
+    try {
+      const response = await this.bookService.get(Object(req.query));
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(500).send({ message: error.message });
+    }
   }
 
-  static async create(req: Request, res: Response) {
-    return bookService.create(req.body)
-      .then(response => res.send(response))
-      .catch(e => res.status(400).send({ message: e.message }))
+  @GET()
+  @route('/:id')
+  async getById(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const response = await this.bookService.getById(Number(id));
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(500).send({ message: error.message });
+    }
   }
 
-  static async update(req: Request, res: Response) {
-    const { id } = req.params
-    return bookService.update(Number(id), req.body)
-      .then(response => res.send(response))
-      .catch(e => res.status(400).send({ message: e.message }))
+  @POST()
+  async create(req: Request, res: Response) {
+    try {
+      const response = await this.bookService.create(req.body);
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(400).send({ message: error.message });
+    }
   }
 
-  static async remove(req: Request, res: Response) {
-    const { id } = req.params
-    return bookService.remove(Number(id))
-      .then(response => res.send(response))
-      .catch(e => res.status(500).send({ message: e.message }))
+  @PUT()
+  async update(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const response = await this.bookService.update(Number(id), req.body);
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(400).send({ message: error.message });
+    }
   }
 
-  static async rent(req: Request, res: Response) {
-    const { id } = req.params
-    const { locatario } = req.body
-    const user = await new UserService().getById(locatario)
-    
-    if (!locatario || !user) 
-      return res.status(400).send({ message: 'Um locatário existente deve ser especificado' })
-    
-    return bookService.rent(Number(id), user)
-      .then(response => res.send(response))
-      .catch(e => res.status(400).send({ message: e.message }))
+  @DELETE()
+  @route('/:id')
+  async remove(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const response = await this.bookService.remove(Number(id));
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(500).send({ message: error.message });
+    }
+  }
+
+  @PATCH()
+  @route('/:id')
+  async rent(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { locatario } = req.body;
+      const user = await this.userService.getById(locatario);
+
+      if (!locatario || !user)
+        return res.status(400).send({ message: 'Um locatário existente deve ser especificado' });
+
+      const response = this.bookService.rent(Number(id), user);
+      return res.send(response);
+    } catch (e) {
+      const error = e as Error;
+      return res.status(400).send({ message: error.message });
+    }
   }
 }
