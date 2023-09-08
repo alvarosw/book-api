@@ -7,7 +7,7 @@ export default class UserService extends AbstractService {
     const user = await User.findOne({ where: { email } });
     if (!user) throw new HttpException(401, 'Email not registered.');
 
-    const isPasswordValid = PasswordHandler.compare({
+    const isPasswordValid = await PasswordHandler.compare({
       unhashed: password,
       hashed: user.password
     });
