@@ -76,7 +76,7 @@ export default class BookController {
   }
 
   @PATCH()
-  @route('/:id')
+  @route('/rent/:id')
   async rent(req: Request, res: Response) {
     try {
       const { id } = req.params;
