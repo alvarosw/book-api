@@ -1,8 +1,8 @@
 import { asClass, createContainer } from 'awilix';
 import { scopePerRequest } from 'awilix-express';
 
-import UserService from './src/services/UserService';
-import BookService from './src/services/BookService';
+import UserService from '../src/services/UserService';
+import BookService from '../src/services/BookService';
 
 const container = createContainer({
   injectionMode: 'CLASSIC',

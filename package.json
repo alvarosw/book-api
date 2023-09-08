@@ -16,9 +16,9 @@
   "scripts": {
     "build": "tsc ",
     "setup:database": "docker compose up -d",
-    "dev": "npx concurrently \"npx tsc --watch\" \"npx nodemon ./build/server.js\"",
-    "serve": "npm run setup:database && npx tsc && node ./build/server.js",
-    "test": "npx jest",
+    "dev": "npx concurrently \"npx tsc --watch\" \"npx nodemon ./build/index.js\"",
+    "serve": "npm run setup:database && npx tsc && node ./build/index.js",
+    "test": "npx jest --detectOpenHandles --forceExit",
     "lint": "npx eslint --fix"
   },
   "keywords": [],
