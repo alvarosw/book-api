@@ -56,6 +56,7 @@ export default class BookController {
   }
 
   @PUT()
+  @route('/:id')
   async update(req: Request, res: Response) {
     const { id } = req.params;
     try {
