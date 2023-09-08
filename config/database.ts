@@ -8,7 +8,7 @@ export const db = new DataSource({
   port: 5432,
   username: 'postgres',
   password: '12345678',
-  entities: [path.join(__dirname, '/src/entities/**/*.{js,ts}')],
+  entities: [path.join(__dirname, '/../src/entities/**/*.{js,ts}')],
   synchronize: true
 });
 
@@ -28,7 +28,7 @@ export async function createTestInstance() {
 
   const dataSource: DataSource = await db.adapters.createTypeormDataSource({
     type: 'postgres',
-    entities: [path.join(__dirname, '/src/entities/**/*.{js,ts}')],
+    entities: [path.join(__dirname, '/../src/entities/**/*.{js,ts}')],
     synchronize: true
   });
   return dataSource;
