@@ -1,11 +1,11 @@
 const userMock = {
   validUser: {
-    nome: 'Usuário Teste',
+    name: 'Usuário Teste',
     email: 'jestuser@node.com',
     password: 'superSecret@100'
   },
   invalidUser: {
-    nome: 'Usuário Teste',
+    name: 'Usuário Teste',
     email: ''
   },
   successfulLogin: {
@@ -16,6 +16,6 @@ const userMock = {
     email: 'jestuser@node.com',
     password: 'wrongpassword'
   }
-}
+};
 
-export default userMock
+export default userMock;

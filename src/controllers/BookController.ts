@@ -87,11 +87,13 @@ export default class BookController {
   async rent(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { locatario } = req.body;
-      const user = await this.userService.getById(locatario);
+      const { renter } = req.body;
+      if (!renter)
+        throw new HttpException(400, 'Property "renter" should not be empty.');
 
-      if (!locatario || !user)
-        throw new HttpException(400, 'Um locatário existente deve ser especificado');
+      const user = await this.userService.getById(renter);
+      if (!user)
+        throw new HttpException(404, 'An existing renter must be specified.');
 
       const response = await this.bookService.rent(Number(id), user);
       return res.send(response);

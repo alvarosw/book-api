@@ -2,25 +2,25 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColu
 import { IsNotEmpty, IsString } from 'class-validator';
 import User from './User';
 
-@Entity({ name: 'livros' })
+@Entity({ name: 'books' })
 export default class Book extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ type: 'varchar', nullable: false })
-  @IsNotEmpty({ message: 'Property "titulo" should not be empty.' })
-  @IsString({ message: 'Property "titulo" should be of type string.' })
-  titulo: string;
+  @IsNotEmpty({ message: 'Property "title" should not be empty.' })
+  @IsString({ message: 'Property "title" should be of type string.' })
+  title: string;
 
   @Column({ type: 'varchar', nullable: false })
-  @IsNotEmpty({ message: 'Property "autor" should not be empty.' })
-  @IsString({ message: 'Property "autor" should be of type string.' })
-  autor: string;
+  @IsNotEmpty({ message: 'Property "author" should not be empty.' })
+  @IsString({ message: 'Property "author" should be of type string.' })
+  author: string;
 
   @Column('text')
-  sinopse: string;
+  synopsis: string;
 
-  @ManyToOne(() => User, (user) => user.livros)
+  @ManyToOne(() => User, (user) => user.books)
   @JoinColumn({ name: 'user_id' })
-  locatario: User;
+  renter: User;
 }

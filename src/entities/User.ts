@@ -20,9 +20,9 @@ export default class User extends BaseEntity {
   id: number;
 
   @Column({ type: 'varchar', nullable: false })
-  @IsNotEmpty({ message: 'Property "nome" should not be empty.' })
-  @IsString({ message: 'Property "nome" should be of type string.' })
-  nome: string;
+  @IsNotEmpty({ message: 'Property "name" should not be empty.' })
+  @IsString({ message: 'Property "name" should be of type string.' })
+  name: string;
 
   @Column({ type: 'varchar', nullable: false, unique: true })
   @IsNotEmpty({ message: 'Property "email" should not be empty.' })
@@ -36,7 +36,7 @@ export default class User extends BaseEntity {
   @IsString({ message: 'Property "password" should be of type string.' })
   password: string;
 
-  @OneToMany(() => Book, (book) => book.locatario)
-  livros: Book[];
+  @OneToMany(() => Book, (book) => book.renter)
+  books: Book[];
 }
 

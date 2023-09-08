@@ -1,15 +1,15 @@
 # book-api
-## CRUD de livros com registro e login para acesso aos endpointss
+## Book rent REST API with auth 
 
-### Rodando o projeto
-No seu terminal, digite os comandos a seguir:
+### Running the server locally
+Clone the project and then type the following lines to your console in the directory of the project:
 ```bash
   npm i
   npm run serve
 ```
 
-### Rodando os testes
-Ainda no terminal, digite o comando:
+### Running tests
+Type this command in the console:
 ```bash
 npm run test
 ```

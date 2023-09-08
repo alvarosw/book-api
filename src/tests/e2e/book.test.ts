@@ -1,114 +1,114 @@
-import { db } from '../../../database'
-import Book from '../../entities/Book'
-import User from '../../entities/User'
-import BookService from '../../services/BookService'
-import mock from '../mock/book\Mock'
+import { db } from '../../../database';
+import Book from '../../entities/Book';
+import User from '../../entities/User';
+import BookService from '../../services/BookService';
+import mock from '../mock/book\Mock';
 
-const bookService = new BookService()
+const bookService = new BookService();
 const {
   validBook,
   validBook2,
   invalidBook,
   bookTenant
-} = mock
+} = mock;
 
-let existentBookId: number
-let deletableBookId: number
-let user: User
+let existentBookId: number;
+let deletableBookId: number;
+let user: User;
 
 describe('Book - create, read, getOne, update, rent and delete', () => {
   beforeAll(async () => {
-    await db.initialize()
-    await db.query(`delete from livros; delete from users`)
-  })
+    await db.initialize();
+    await db.query(`delete from books; delete from users`);
+  });
 
   afterAll(async () => {
-    await db.destroy()
-  })
+    await db.destroy();
+  });
 
   it('should create book -- success case', async () => {
-    const book = await bookService.create(validBook)
-    existentBookId = book.id
+    const book = await bookService.create(validBook);
+    existentBookId = book.id;
 
-    expect(book).toBeInstanceOf(Book)
-  })
+    expect(book).toBeInstanceOf(Book);
+  });
 
   it('should create book -- fail case', async () => {
     try {
-      await bookService.create(invalidBook)
+      await bookService.create(invalidBook);
     } catch (error) {
-      const parsedError = Object(error)
+      const parsedError = Object(error);
 
-      expect(parsedError.message).toBe('Título e autor são obrigatórios')
+      expect(parsedError.message).toBe('Título e author são obrigatórios');
     }
-  })
- 
+  });
+
   it('should list book -- success case', async () => {
-    const bookList = await bookService.get({})
-    
-    expect(bookList.length).toBeGreaterThan(0)
-    expect(bookList[0]).toBeInstanceOf(Object)
-  })
+    const bookList = await bookService.get({});
+
+    expect(bookList.length).toBeGreaterThan(0);
+    expect(bookList[0]).toBeInstanceOf(Object);
+  });
 
   it('should get book by id -- success case', async () => {
-    const book = await bookService.getById(existentBookId)
+    const book = await bookService.getById(existentBookId);
 
-    expect(book).not.toBe(null)
-  })
+    expect(book).not.toBe(null);
+  });
 
   it('should rent a book -- success case', async () => {
-    user = await User.create({ ...bookTenant }).save()
-    const book = await bookService.rent(existentBookId, user)
+    user = await User.create({ ...bookTenant }).save();
+    const book = await bookService.rent(existentBookId, user);
 
-    expect(book).toBeInstanceOf(Book)
-    expect(book?.locatario).not.toBe(null)
-  })
+    expect(book).toBeInstanceOf(Book);
+    expect(book?.renter).not.toBe(null);
+  });
 
   it('should rent a book -- fail case', async () => {
     try {
-      await bookService.rent(existentBookId, user)
+      await bookService.rent(existentBookId, user);
     } catch (error) {
-      const parsedError = Object(error)
+      const parsedError = Object(error);
 
-      expect(parsedError.message).toBe('O livro já foi alugado') 
+      expect(parsedError.message).toBe('O livro já foi alugado');
     }
-  })
+  });
 
   it('should update book -- success case', async () => {
-    const updatable = await Book.create({ ...validBook2 }).save()
-    deletableBookId = updatable.id
+    const updatable = await Book.create({ ...validBook2 }).save();
+    deletableBookId = updatable.id;
 
     const book = await bookService.update(updatable.id, {
-      sinopse: 'Sinopse nova'
-    })
+      synopsis: 'synopsis nova'
+    });
 
-    expect(book).toBeInstanceOf(Book)
-    expect(book?.sinopse).toBe('Sinopse nova')
-  })
+    expect(book).toBeInstanceOf(Book);
+    expect(book?.synopsis).toBe('synopsis nova');
+  });
 
   it('should update book -- fail case', async () => {
     try {
-      await bookService.update(existentBookId, { sinopse: 'Sinopse nova'})
+      await bookService.update(existentBookId, { synopsis: 'synopsis nova' });
     } catch (error) {
-      const parsedError = Object(error)
+      const parsedError = Object(error);
 
-      expect(parsedError.message).toBe('Não é possível editar um livro alugado')
+      expect(parsedError.message).toBe('Não é possível editar um livro alugado');
     }
-  })
+  });
 
   it('should delete book -- success case', async () => {
-      const operation = await bookService.remove(deletableBookId)
+    const operation = await bookService.remove(deletableBookId);
 
-      expect(operation.deleted).toBe(true)
-  })
+    expect(operation.deleted).toBe(true);
+  });
 
   it('should delete book -- fail case', async () => {
     try {
-      await bookService.remove(existentBookId)
+      await bookService.remove(existentBookId);
     } catch (error) {
-      const parsedError = Object(error)
+      const parsedError = Object(error);
 
-      expect(parsedError.message).toBe('Não é possível deletar um livro alugado')
+      expect(parsedError.message).toBe('Não é possível deletar um livro alugado');
     }
-  })
-})
+  });
+});
