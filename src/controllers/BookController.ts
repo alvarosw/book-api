@@ -93,7 +93,7 @@ export default class BookController {
       if (!locatario || !user)
         throw new HttpException(400, 'Um locatário existente deve ser especificado');
 
-      const response = this.bookService.rent(Number(id), user);
+      const response = await this.bookService.rent(Number(id), user);
       return res.send(response);
     } catch (e) {
       if (e instanceof HttpException)

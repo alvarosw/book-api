@@ -1,7 +1,8 @@
 import User from '../entities/User';
 import { TokenHandler, PasswordHandler, HttpException } from '../helpers';
+import AbstractService from './AbstractsService';
 
-export default class UserService {
+export default class UserService extends AbstractService {
   async login({ email, password }: Record<string, string>) {
     const user = await User.findOne({ where: { email } });
     if (!user) throw new HttpException(401, 'Email não cadastrado');
@@ -24,11 +25,13 @@ export default class UserService {
   }
 
   async create({ nome, email, password }: Record<string, string>) {
-    if (!nome || !email || !password) throw new HttpException(400, 'Todos os campos são obrigatórios');
-    return User.create({
+    const user = User.create({
       nome,
       email,
       password: await PasswordHandler.toHash({ password })
-    }).save();
+    });
+
+    await this.validateAs<User>(user);
+    return user.save();
   }
 }

@@ -2,8 +2,9 @@ import { Raw } from 'typeorm';
 import Book from '../entities/Book';
 import User from '../entities/User';
 import { HttpException } from '../helpers';
+import AbstractService from './AbstractsService';
 
-export default class BookService {
+export default class BookService extends AbstractService {
   async get({ titulo, autor, search }: Record<string, string>) {
     return Book.find({
       where: {
@@ -23,18 +24,21 @@ export default class BookService {
   }
 
   async create({ titulo, autor, sinopse }: Record<string, string>) {
-    if (!titulo || !autor) throw new HttpException(400, 'Título e autor são obrigatórios');
-    return Book.create({ titulo, autor, sinopse }).save();
+    const book = Book.create({ titulo, autor, sinopse });
+
+    await this.validateAs<Book>(book);
+    return book.save();
   }
 
   async update(id: number, { titulo, autor, sinopse }: Record<string, string>) {
-    await this.getByIdOrFail(id);
-    const operation = await Book.update({
-      id,
-      locatario: Raw(() => `user_id is null`)
-    }, { titulo, autor, sinopse });
+    const book = await this.getByIdOrFail(id);
+    if (book.locatario)
+      throw new HttpException(409, 'Não é possível editar um livro alugado');
 
-    if (!operation.affected) throw new HttpException(409, 'Não é possível editar um livro alugado');
+    const newBook = Book.create({ titulo, autor, sinopse });
+    await this.validateAs<Book>(newBook);
+
+    await Book.update({ id }, newBook);
     return this.getById(id);
   }
 
