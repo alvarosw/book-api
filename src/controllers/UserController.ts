@@ -19,7 +19,7 @@ export default class UserController {
       return res.send(response);
     } catch (e) {
       if (e instanceof HttpException)
-        return res.status(e.status).send(e);
+        return res.status(e.status).send({ message: e.message });
       return res.status(500).send({ message: 'Something went wrong. Try again later.' });
     }
   }
@@ -32,7 +32,7 @@ export default class UserController {
       return res.send(response);
     } catch (e) {
       if (e instanceof HttpException)
-        return res.status(e.status).send(e);
+        return res.status(e.status).send({ message: e.message });
       return res.status(500).send({ message: 'Something went wrong. Try again later.' });
     }
   }
