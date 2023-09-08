@@ -65,7 +65,13 @@ export default class BookService extends AbstractService {
   }
 
   async getByIdOrFail(id: number) {
-    return Book.findOneOrFail({ where: { id } })
-      .catch(() => { throw new HttpException(404, 'Book not found.'); });
+    try {
+      const book = await this.getById(id);
+      if (!book) throw new Error('Not Found');
+
+      return book;
+    } catch (error) {
+      throw new HttpException(404, 'Book not found.');
+    }
   }
 }

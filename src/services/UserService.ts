@@ -28,10 +28,11 @@ export default class UserService extends AbstractService {
     const user = User.create({
       name,
       email,
-      password: await PasswordHandler.toHash({ password })
+      password
     });
-
     await this.validateAs<User>(user);
+    user.password = await PasswordHandler.toHash({ password });
+
     return user.save();
   }
 }
