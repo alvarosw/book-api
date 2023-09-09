@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "jest": {
+    "globalSetup": "./src/tests/config/jest-server-setup.ts",
+    "globalTeardown": "./src/tests/config/jest-server-teardown.ts",
     "preset": "ts-jest",
     "testEnvironment": "node",
     "roots": [

@@ -3,11 +3,10 @@ import request from 'supertest';
 import { DataSource } from 'typeorm';
 import { createTestInstance } from '../../../config/database';
 import { TokenHandler } from '../../helpers';
-
+import { app } from '../config/jest-server-setup';
 import Book from '../../entities/Book';
 import User from '../../entities/User';
 import mock from '../mock/bookMock';
-import app from '../../../config/server';
 
 const {
   validBook,
@@ -19,8 +18,7 @@ let existentBookId: number;
 let deletableBookId: number;
 let user: User;
 describe('Book endpoints /book', () => {
-  const testServer = app.listen(3333);
-  const makeRequest = () => request(testServer);
+  const makeRequest = () => request(app);
   let dataSource: DataSource;
   let bearerToken = 'Bearer ';
   beforeAll(async () => {
