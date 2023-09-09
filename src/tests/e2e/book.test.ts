@@ -6,16 +6,13 @@ import { TokenHandler } from '../../helpers';
 
 import Book from '../../entities/Book';
 import User from '../../entities/User';
-import BookService from '../../services/BookService';
 import mock from '../mock/bookMock';
 import app from '../../../config/server';
 
-const bookService = new BookService();
 const {
   validBook,
   validBook2,
   invalidBook,
-  bookTenant
 } = mock;
 
 let existentBookId: number;
