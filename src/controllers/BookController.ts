@@ -88,7 +88,7 @@ export default class BookController {
   async rent(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { renter } = req.body;
+      const { renter }: RentBookDTO = req.body;
       if (!renter)
         throw new HttpException(400, 'Property "renter" should not be empty.');
 

@@ -15,7 +15,7 @@ class UniqueEmailValidator implements ValidatorConstraintInterface {
 }
 
 @Entity({ name: 'users' })
-export default class User extends BaseEntity {
+export default class User extends BaseEntity implements UserDTO {
   @PrimaryGeneratedColumn('increment')
   id: number;
 

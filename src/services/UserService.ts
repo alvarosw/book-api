@@ -3,7 +3,7 @@ import { TokenHandler, PasswordHandler, HttpException } from '../helpers';
 import AbstractService from './AbstractsService';
 
 export default class UserService extends AbstractService {
-  async login({ email, password }: Record<string, string>) {
+  async login({ email, password }: LoginUserDTO) {
     const user = await User.findOne({ where: { email } });
     if (!user) throw new HttpException(401, 'Email not registered.');
 
@@ -24,14 +24,10 @@ export default class UserService extends AbstractService {
     return User.findOne({ where: { id } });
   }
 
-  async create({ name, email, password }: Record<string, string>) {
-    const user = User.create({
-      name,
-      email,
-      password
-    });
+  async create(userData: CreateUserDTO) {
+    const user = User.create({ ...userData });
     await this.validateAs<User>(user);
-    user.password = await PasswordHandler.toHash({ password });
+    user.password = await PasswordHandler.toHash(userData.password);
 
     return user.save();
   }

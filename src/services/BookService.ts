@@ -1,6 +1,5 @@
 import { Raw } from 'typeorm';
 import Book from '../entities/Book';
-import User from '../entities/User';
 import { HttpException } from '../helpers';
 import AbstractService from './AbstractsService';
 
@@ -23,19 +22,19 @@ export default class BookService extends AbstractService {
     return Book.findOne({ where: { id }, relations: { renter: true } });
   }
 
-  async create({ title, author, synopsis }: Record<string, string>) {
-    const book = Book.create({ title, author, synopsis });
+  async create(bookData: CreateBookDTO) {
+    const book = Book.create({ ...bookData });
 
     await this.validateAs<Book>(book);
     return book.save();
   }
 
-  async update(id: number, { title, author, synopsis }: Record<string, string>) {
+  async update(id: number, bookData: UpdateBookDTO) {
     const book = await this.getByIdOrFail(id);
     if (book.renter)
       throw new HttpException(409, 'It is not possible to update a rented book.');
 
-    const newBook = Book.create({ title, author, synopsis });
+    const newBook = Book.create({ ...bookData });
     await this.validateAs<Book>(newBook);
 
     await Book.update({ id }, newBook);
@@ -53,7 +52,7 @@ export default class BookService extends AbstractService {
     return { deleted: true };
   }
 
-  async rent(id: number, user: User) {
+  async rent(id: number, user: UserDTO) {
     const operation = await Book.update({
       id,
       renter: Raw(() => `user_id is null`)

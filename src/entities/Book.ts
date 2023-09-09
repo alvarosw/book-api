@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import User from './User';
 
 @Entity({ name: 'books' })
-export default class Book extends BaseEntity {
+export default class Book extends BaseEntity implements BookDTO {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -17,7 +17,7 @@ export default class Book extends BaseEntity {
   @IsString({ message: 'Property "author" should be of type string.' })
   author: string;
 
-  @Column('text')
+  @Column({ type: 'text', nullable: true })
   synopsis: string;
 
   @ManyToOne(() => User, (user) => user.books)
