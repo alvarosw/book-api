@@ -29,7 +29,7 @@ export default class UserController {
   async create(req: Request, res: Response) {
     try {
       const response = await this.userService.create(req.body);
-      return res.send(response);
+      return res.status(201).send(response);
     } catch (e) {
       if (e instanceof HttpException)
         return res.status(e.status).send({ message: e.message });

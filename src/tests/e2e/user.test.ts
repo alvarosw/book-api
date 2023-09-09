@@ -32,7 +32,7 @@ describe('User endpoints', () => {
       .post('/user')
       .send(validUser);
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(201);
     expect(res.body).toMatchObject({ name: validUser.name, email: validUser.email });
   });
 

@@ -44,7 +44,7 @@ describe('Book endpoints /book', () => {
 
     existentBookId = res.body.id;
 
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(201);
     expect(res.body).toMatchObject(validBook);
   });
 

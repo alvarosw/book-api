@@ -47,7 +47,7 @@ export default class BookController {
   async create(req: Request, res: Response) {
     try {
       const response = await this.bookService.create(req.body);
-      return res.send(response);
+      return res.status(201).send(response);
     } catch (e) {
       if (e instanceof HttpException)
         return res.status(e.status).send({ message: e.message });
